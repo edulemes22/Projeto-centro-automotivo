@@ -430,7 +430,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jButtonCadastrarColaboradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadastrarColaboradorActionPerformed
         // TODO add your handling code here:
-        TelaExibirClolaboradores exibirColaborador = new TelaExibirClolaboradores();
+        TelaExibirColaboradores exibirColaborador = new TelaExibirColaboradores();
         exibirColaborador.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButtonCadastrarColaboradorActionPerformed
@@ -448,7 +448,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jButtonCadastrarColaboradorMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadastrarColaboradorMenuActionPerformed
         // TODO add your handling code here:
-        TelaExibirClolaboradores exibirColaborador = new TelaExibirClolaboradores();
+        TelaExibirColaboradores exibirColaborador = new TelaExibirColaboradores();
         exibirColaborador.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButtonCadastrarColaboradorMenuActionPerformed

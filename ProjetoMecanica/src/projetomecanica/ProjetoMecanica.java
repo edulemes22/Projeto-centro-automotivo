@@ -1,7 +1,6 @@
 package projetomecanica;
 
-import projetomecanica.entidades.Telefone;
-import projetomecanica.entidades.Veiculo;
+import projetomecanica.entidades.*;
 import projetomecanica.entidades.enums.TipoDeTelefone;
 import projetomecanica.servicos.Utils;
 
@@ -11,8 +10,8 @@ public class ProjetoMecanica {
         
         Veiculo veiculo = new Veiculo();
         
-        veiculo.setPlaca("BCV3G68");
-        veiculo.setRenavam("85138164907");
+        Colaborador colaborador = new Colaborador();
+        colaborador.setCpf("702.100.301-35");
         
     }
     

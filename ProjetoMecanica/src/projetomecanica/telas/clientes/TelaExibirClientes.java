@@ -152,7 +152,7 @@ public class TelaExibirClientes extends javax.swing.JFrame {
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/projetomecanica/telas/visao/icones/Ativo 36.png"))); // NOI18N
 
-        jTableListagemDeCLientes.setForeground(new java.awt.Color(255, 255, 255));
+        jTableListagemDeCLientes.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jTableListagemDeCLientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -465,7 +465,7 @@ public class TelaExibirClientes extends javax.swing.JFrame {
 
     private void jButtonCadastrarColaboradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadastrarColaboradorActionPerformed
         // TODO add your handling code here:
-        TelaExibirClolaboradores funcionario = new TelaExibirClolaboradores();
+        TelaExibirColaboradores funcionario = new TelaExibirColaboradores();
         funcionario.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButtonCadastrarColaboradorActionPerformed

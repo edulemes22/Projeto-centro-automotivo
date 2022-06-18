@@ -12,24 +12,27 @@ public class Colaborador {
     private Telefone telefone2 = new Telefone();
     private Telefone telefone3 = new Telefone();
     private String email = "";
+    private String cpf = "";
     private Endereco endereco = new Endereco();
     private String dataNascimento = "";
     private float salarioBase = 0;
     private float valorHora = 0;
     private TipoDeColaborador tipo = TipoDeColaborador.ATENDENTE;
     private StatusPessoa status = StatusPessoa.ATIVO;
-    private String senha = "";
+    private String senha = "12345";
     private int idControleDeAcesso = 0;
     
     public Colaborador() {}
 
-    public Colaborador(String nomeCompleto, Telefone telefone1, Telefone telefone2, Telefone telefone3, String email, Endereco endereco, String dataNascimento, float salarioBase, float valorHora, TipoDeColaborador tipo, StatusPessoa status, String senha, int idControleDeAcesso) throws Exception {
+    public Colaborador(String nomeCompleto, String cpf, Telefone telefone1, Telefone telefone2, Telefone telefone3, String email, Endereco endereco, String dataNascimento, float salarioBase, float valorHora, TipoDeColaborador tipo, StatusPessoa status, String senha, int idControleDeAcesso) throws Exception {
         if (!Utils.validaEmail(email)) throw new Exception("Email inválido");
         if (!Utils.validaNumero(salarioBase)) throw new Exception("Salario inválido");
         if (!Utils.validaNumero(valorHora)) throw new Exception("Valor hora inválido");
         if (!Utils.dataIsValida(dataNascimento)) throw new Exception("Data de nascimento inválida");
         if (!Utils.validaSenha(senha)) throw new Exception("Senha inválida, deve ser 8 caracteres");
+        if (!Utils.isCPF(cpf)) throw new Exception("CPF inválido");
         this.nomeCompleto = nomeCompleto;
+        this.cpf = cpf;
         this.telefone1 = telefone1;
         this.telefone2 = telefone2;
         this.telefone3 = telefone3;
@@ -58,6 +61,15 @@ public class Colaborador {
 
     public void setNomeCompleto(String nomeCompleto) {
         this.nomeCompleto = nomeCompleto;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) throws Exception {
+        if (!Utils.isCPF(cpf)) throw new Exception("CPF inválido");
+        this.cpf = cpf;
     }
 
     public Telefone getTelefone1() {
@@ -159,10 +171,14 @@ public class Colaborador {
     public void setIdControleDeAcesso(int idControleDeAcesso) {
         this.idControleDeAcesso = idControleDeAcesso;
     }
+    
+    public Object[] listaValoresTabela(int id) throws Exception {
+        return new Object[] {nomeCompleto, cpf, dataNascimento, tipo, status};
+    }
 
     @Override
     public String toString() {
-        return id + ";" + nomeCompleto + ";" + telefone1 + ";" + telefone2 + ";" + telefone3 + ";" + email + ";" + endereco + ";" + dataNascimento + ";" + salarioBase + ";" + valorHora + ";" + tipo.getDescricao() + ";" + status.getDescricao() + ";" + senha + ";" + idControleDeAcesso;
+        return id + ";" + nomeCompleto + ";" + telefone1 + ";" + telefone2 + ";" + telefone3 + ";" + email + ";" + endereco + ";" + dataNascimento + ";" + salarioBase + ";" + valorHora + ";" + tipo + ";" + status + ";" + senha + ";" + idControleDeAcesso + ";" + cpf;
     }
     
 }

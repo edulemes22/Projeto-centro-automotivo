@@ -768,7 +768,7 @@ public class TelaCadastrarClientes extends javax.swing.JFrame {
 
     private void jButtonCadastrarColaboradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadastrarColaboradorActionPerformed
         // TODO add your handling code here:
-        TelaExibirClolaboradores funcionario = new TelaExibirClolaboradores();
+        TelaExibirColaboradores funcionario = new TelaExibirColaboradores();
         funcionario.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButtonCadastrarColaboradorActionPerformed
@@ -847,6 +847,14 @@ public class TelaCadastrarClientes extends javax.swing.JFrame {
                 else validador = true;
             }
             
+            String DDD1 = jFormattedTextFieldDDD1.getText(1, 2);
+            String numero1 = jFormattedTextFieldNum1.getText().replace("-", "");
+            String DDD2 = jFormattedTextFieldDDD2.getText(1, 2);
+            String numero2 = jFormattedTextFieldNum2.getText().replace("-", "");
+            String DDD3 = jFormattedTextFieldDDD3.getText(1, 2);
+            String numero3 = jFormattedTextFieldNum3.getText().replace("-", "");
+            String cep = jFormattedTextFieldCEP.getText().replace("-", "");
+            
             cliente.setNomeCompleto(jTextFieldNome.getText());
             cliente.setEmail(jTextFieldEmail.getText());
             
@@ -858,19 +866,19 @@ public class TelaCadastrarClientes extends javax.swing.JFrame {
             cliente.setNomeFantasia(jTextFieldNomeFantasia.getText());
             
             Telefone telefone1 = new Telefone();
-            telefone1.setNumero(Integer.parseInt(jFormattedTextFieldDDD1.getText()), Integer.parseInt(jFormattedTextFieldNum1.getText()));
+            telefone1.setNumero(Integer.parseInt(DDD1), Integer.parseInt(numero1));
             TipoDeTelefone tipoTelefone1 = TipoDeTelefone.valueOf(jComboBoxTipoTelefone1.getSelectedItem().toString());
             telefone1.setTipo(tipoTelefone1);
             cliente.setTelefone1(telefone1);
             
             Telefone telefone2 = new Telefone();
-            telefone2.setNumero(Integer.parseInt(jFormattedTextFieldDDD2.getText()), Integer.parseInt(jFormattedTextFieldNum2.getText()));
+            telefone2.setNumero(Integer.parseInt(DDD2), Integer.parseInt(numero2));
             TipoDeTelefone tipoTelefone2 = TipoDeTelefone.valueOf(jComboBoxTipoTelefone2.getSelectedItem().toString());
             telefone1.setTipo(tipoTelefone2);
             cliente.setTelefone2(telefone2);
             
             Telefone telefone3 = new Telefone();
-            telefone3.setNumero(Integer.parseInt(jFormattedTextFieldDDD3.getText()), Integer.parseInt(jFormattedTextFieldNum3.getText()));
+            telefone3.setNumero(Integer.parseInt(DDD3), Integer.parseInt(numero3));
             TipoDeTelefone tipoTelefone3 = TipoDeTelefone.valueOf(jComboBoxTipoTelefone3.getSelectedItem().toString());
             telefone1.setTipo(tipoTelefone3);
             cliente.setTelefone3(telefone3);
@@ -879,7 +887,7 @@ public class TelaCadastrarClientes extends javax.swing.JFrame {
             TipoDeLogradouro tipoDeLogradouro = TipoDeLogradouro.valueOf(jComboBoxTipoLogradouro.getSelectedItem().toString());
             endereco.setTipoLogradouro(tipoDeLogradouro);
             endereco.setBairro(jTextFieldBairro.getText());
-            endereco.setCep(Integer.parseInt(jFormattedTextFieldCEP.getText()));
+            endereco.setCep(Integer.parseInt(cep));
             endereco.setCidade(jTextFieldCidade.getText());
             endereco.setComplemento(jTextFieldComplemento.getText());
             endereco.setLogradouro(jTextFieldLogradouro.getText());

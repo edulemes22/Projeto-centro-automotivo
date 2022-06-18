@@ -4,13 +4,15 @@
  */
 package projetomecanica.telas.funcionarios;
 
-import projetomecanica.telas.clientes.*;
 import projetomecanica.telas.funcionarios.*;
 import projetomecanica.telas.visao.*;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,6 +22,8 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
+import projetomecanica.entidades.Colaborador;
+import projetomecanica.entidades.dao.ColaboradorDAO;
 import projetomecanica.telas.clientes.*;
 import projetomecanica.telas.funcionarios.*;
 import projetomecanica.telas.veiculos.TelaExibirVeiculos;
@@ -27,17 +31,32 @@ import projetomecanica.telas.veiculos.TelaExibirVeiculos;
  *
  * @author Dell
  */
-public class TelaExibirClolaboradores extends javax.swing.JFrame {
+public class TelaExibirColaboradores extends javax.swing.JFrame {
 
+    DefaultTableModel tabela;
+    ColaboradorDAO colaboradorDAO = new ColaboradorDAO();
+    ArrayList<Integer> colaboradoresId = new ArrayList();
     /**
      * Creates new form TelaTechnocar
      */
-    public TelaExibirClolaboradores() {
-        initComponents();
-         if(this.getExtendedState()!= TelaExibirClolaboradores.MAXIMIZED_BOTH){
-            this.setExtendedState(TelaExibirClolaboradores.MAXIMIZED_BOTH);
+    public TelaExibirColaboradores() {
+        
+        try {
+            initComponents();
+            if(this.getExtendedState()!= TelaExibirColaboradores.MAXIMIZED_BOTH){
+               this.setExtendedState(TelaExibirColaboradores.MAXIMIZED_BOTH);
+            }
+            setLocationRelativeTo(null);
+            ArrayList<Colaborador> listaDeColaboradores = colaboradorDAO.obterTodasEntidades();
+            
+            tabela = (DefaultTableModel) jTableListagemDeColaboradores.getModel();
+            for(int i = 0; i < listaDeColaboradores.size(); i++) {
+                colaboradoresId.add(listaDeColaboradores.get(i).getId());
+                tabela.addRow(listaDeColaboradores.get(i).listaValoresTabela(listaDeColaboradores.get(i).getId()));
+            }
+        } catch (Exception erro) {
+            JOptionPane.showMessageDialog(null, erro, "Aviso:", JOptionPane.WARNING_MESSAGE);
         }
-        setLocationRelativeTo(null);
     }
 
     /**
@@ -76,7 +95,7 @@ public class TelaExibirClolaboradores extends javax.swing.JFrame {
         jButtonNovoColaborador = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTableCadastros = new javax.swing.JTable();
+        jTableListagemDeColaboradores = new javax.swing.JTable();
         jTextFieldPesquisa = new javax.swing.JTextField();
         jButtonExcluir = new javax.swing.JButton();
         jButtonEditar = new javax.swing.JButton();
@@ -167,16 +186,31 @@ public class TelaExibirClolaboradores extends javax.swing.JFrame {
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/projetomecanica/telas/visao/icones/Ativo 36.png"))); // NOI18N
 
-        jTableCadastros.setForeground(new java.awt.Color(255, 255, 255));
-        jTableCadastros.setModel(new javax.swing.table.DefaultTableModel(
+        jTableListagemDeColaboradores.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jTableListagemDeColaboradores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Nome Completo", "CPF", "Data de Nascimento", "Veículo", "Placa", "Data de Cadastro", "Status", "Ações"
+                "Nome Completo", "CPF", "Data de Nascimento", "Função", "Status"
             }
-        ));
-        jScrollPane2.setViewportView(jTableCadastros);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(jTableListagemDeColaboradores);
+        if (jTableListagemDeColaboradores.getColumnModel().getColumnCount() > 0) {
+            jTableListagemDeColaboradores.getColumnModel().getColumn(0).setResizable(false);
+            jTableListagemDeColaboradores.getColumnModel().getColumn(1).setResizable(false);
+            jTableListagemDeColaboradores.getColumnModel().getColumn(2).setResizable(false);
+            jTableListagemDeColaboradores.getColumnModel().getColumn(3).setResizable(false);
+            jTableListagemDeColaboradores.getColumnModel().getColumn(4).setResizable(false);
+        }
 
         jTextFieldPesquisa.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextFieldPesquisa.setText("Pesquisar");
@@ -465,7 +499,7 @@ public class TelaExibirClolaboradores extends javax.swing.JFrame {
 
     private void jButtonCadastrarColaboradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadastrarColaboradorActionPerformed
         // TODO add your handling code here:
-        TelaExibirClolaboradores funcionario = new TelaExibirClolaboradores();
+        TelaExibirColaboradores funcionario = new TelaExibirColaboradores();
         funcionario.setVisible(true);
         dispose();
     }//GEN-LAST:event_jButtonCadastrarColaboradorActionPerformed
@@ -571,11 +605,26 @@ public class TelaExibirClolaboradores extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonConfigurarMouseClicked
 
     private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
-        // TODO add your handling code here:
+        try {
+            int index = jTableListagemDeColaboradores.getSelectedRow();
+            colaboradorDAO.inativarPorId(colaboradoresId.get(index).intValue());
+            TelaExibirColaboradores funcionario = new TelaExibirColaboradores();
+            funcionario.setVisible(true);
+            dispose();
+        } catch (Exception erro) {
+            JOptionPane.showMessageDialog(null, erro, "Aviso:", JOptionPane.WARNING_MESSAGE);
+        }
+        
     }//GEN-LAST:event_jButtonExcluirActionPerformed
 
     private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
-        // TODO add your handling code here:
+        try {
+            TelaCadastrarColaborador novoColaborador = new TelaCadastrarColaborador();
+            novoColaborador.setVisible(true);
+            dispose();
+        } catch (Exception erro) {
+            JOptionPane.showMessageDialog(null, erro, "Aviso:", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_jButtonEditarActionPerformed
 
     /**
@@ -595,18 +644,18 @@ public class TelaExibirClolaboradores extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaExibirClolaboradores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaExibirColaboradores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaExibirClolaboradores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaExibirColaboradores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaExibirClolaboradores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaExibirColaboradores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaExibirClolaboradores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaExibirColaboradores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
        
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TelaExibirClolaboradores().setVisible(true);
+                new TelaExibirColaboradores().setVisible(true);
             }
         });
     }
@@ -643,7 +692,7 @@ public class TelaExibirClolaboradores extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelFundo;
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTableCadastros;
+    private javax.swing.JTable jTableListagemDeColaboradores;
     private javax.swing.JTextField jTextField11;
     private javax.swing.JTextField jTextField12;
     private javax.swing.JTextField jTextField13;
