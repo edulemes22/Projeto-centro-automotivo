@@ -4,15 +4,13 @@
  */
 package projetomecanica.telas.funcionarios;
 
+import projetomecanica.telas.clientes.*;
 import projetomecanica.telas.funcionarios.*;
 import projetomecanica.telas.visao.*;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -22,10 +20,13 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
-import projetomecanica.entidades.Colaborador;
-import projetomecanica.entidades.dao.ColaboradorDAO;
 import projetomecanica.telas.clientes.*;
+import projetomecanica.telas.documentos.TelaExibirOrcamento;
+import projetomecanica.telas.documentos.TelaListagemOS;
 import projetomecanica.telas.funcionarios.*;
+import projetomecanica.telas.pecas.TelaPecas;
+import projetomecanica.telas.servicos.TelaServicos;
+import projetomecanica.telas.veiculos.TelaCadastrarMarcas;
 import projetomecanica.telas.veiculos.TelaExibirVeiculos;
 /**
  *
@@ -33,30 +34,15 @@ import projetomecanica.telas.veiculos.TelaExibirVeiculos;
  */
 public class TelaExibirColaboradores extends javax.swing.JFrame {
 
-    DefaultTableModel tabela;
-    ColaboradorDAO colaboradorDAO = new ColaboradorDAO();
-    ArrayList<Integer> colaboradoresId = new ArrayList();
     /**
      * Creates new form TelaTechnocar
      */
     public TelaExibirColaboradores() {
-        
-        try {
-            initComponents();
-            if(this.getExtendedState()!= TelaExibirColaboradores.MAXIMIZED_BOTH){
-               this.setExtendedState(TelaExibirColaboradores.MAXIMIZED_BOTH);
-            }
-            setLocationRelativeTo(null);
-            ArrayList<Colaborador> listaDeColaboradores = colaboradorDAO.obterTodasEntidades();
-            
-            tabela = (DefaultTableModel) jTableListagemDeColaboradores.getModel();
-            for(int i = 0; i < listaDeColaboradores.size(); i++) {
-                colaboradoresId.add(listaDeColaboradores.get(i).getId());
-                tabela.addRow(listaDeColaboradores.get(i).listaValoresTabela(listaDeColaboradores.get(i).getId()));
-            }
-        } catch (Exception erro) {
-            JOptionPane.showMessageDialog(null, erro, "Aviso:", JOptionPane.WARNING_MESSAGE);
+        initComponents();
+         if(this.getExtendedState()!= TelaExibirColaboradores.MAXIMIZED_BOTH){
+            this.setExtendedState(TelaExibirColaboradores.MAXIMIZED_BOTH);
         }
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -95,7 +81,7 @@ public class TelaExibirColaboradores extends javax.swing.JFrame {
         jButtonNovoColaborador = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTableListagemDeColaboradores = new javax.swing.JTable();
+        jTableCadastros = new javax.swing.JTable();
         jTextFieldPesquisa = new javax.swing.JTextField();
         jButtonExcluir = new javax.swing.JButton();
         jButtonEditar = new javax.swing.JButton();
@@ -178,6 +164,7 @@ public class TelaExibirColaboradores extends javax.swing.JFrame {
         jButtonNovoColaborador.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
         jButtonNovoColaborador.setForeground(new java.awt.Color(255, 255, 255));
         jButtonNovoColaborador.setText("Novo Colaborador");
+        jButtonNovoColaborador.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonNovoColaborador.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonNovoColaboradorActionPerformed(evt);
@@ -186,30 +173,29 @@ public class TelaExibirColaboradores extends javax.swing.JFrame {
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/projetomecanica/telas/visao/icones/Ativo 36.png"))); // NOI18N
 
-        jTableListagemDeColaboradores.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jTableListagemDeColaboradores.setModel(new javax.swing.table.DefaultTableModel(
+        jTableCadastros.setForeground(new java.awt.Color(255, 255, 255));
+        jTableCadastros.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Nome Completo", "CPF", "Data de Nascimento", "Função", "Status"
+                "Nome Completo", "CPF", "Função", "Status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTableListagemDeColaboradores);
-        if (jTableListagemDeColaboradores.getColumnModel().getColumnCount() > 0) {
-            jTableListagemDeColaboradores.getColumnModel().getColumn(0).setResizable(false);
-            jTableListagemDeColaboradores.getColumnModel().getColumn(1).setResizable(false);
-            jTableListagemDeColaboradores.getColumnModel().getColumn(2).setResizable(false);
-            jTableListagemDeColaboradores.getColumnModel().getColumn(3).setResizable(false);
-            jTableListagemDeColaboradores.getColumnModel().getColumn(4).setResizable(false);
+        jScrollPane2.setViewportView(jTableCadastros);
+        if (jTableCadastros.getColumnModel().getColumnCount() > 0) {
+            jTableCadastros.getColumnModel().getColumn(0).setResizable(false);
+            jTableCadastros.getColumnModel().getColumn(1).setResizable(false);
+            jTableCadastros.getColumnModel().getColumn(2).setResizable(false);
+            jTableCadastros.getColumnModel().getColumn(3).setResizable(false);
         }
 
         jTextFieldPesquisa.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -224,6 +210,7 @@ public class TelaExibirColaboradores extends javax.swing.JFrame {
         jButtonExcluir.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
         jButtonExcluir.setForeground(new java.awt.Color(255, 255, 255));
         jButtonExcluir.setText("Excluir");
+        jButtonExcluir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonExcluir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonExcluirActionPerformed(evt);
@@ -232,6 +219,7 @@ public class TelaExibirColaboradores extends javax.swing.JFrame {
 
         jButtonEditar.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
         jButtonEditar.setText("Editar");
+        jButtonEditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonEditarActionPerformed(evt);
@@ -281,9 +269,9 @@ public class TelaExibirColaboradores extends javax.swing.JFrame {
         jPanel1.setForeground(new java.awt.Color(8, 83, 148));
 
         jButtonMenu.setBackground(new java.awt.Color(0, 0, 0));
-        jButtonMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/projetomecanica/telas/visao/icones/Ativo 20.png"))); // NOI18N
+        jButtonMenu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/projetomecanica/telas/visao/icones/New Car white.png"))); // NOI18N
         jButtonMenu.setBorder(null);
-        jButtonMenu.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jButtonMenu.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonMenuActionPerformed(evt);
@@ -293,6 +281,7 @@ public class TelaExibirColaboradores extends javax.swing.JFrame {
         jButtonSair.setBackground(new java.awt.Color(0, 0, 0));
         jButtonSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/projetomecanica/telas/visao/icones/Ativo 43.png"))); // NOI18N
         jButtonSair.setBorder(null);
+        jButtonSair.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonSair.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButtonSairMouseClicked(evt);
@@ -302,6 +291,7 @@ public class TelaExibirColaboradores extends javax.swing.JFrame {
         jButtonConfigurar.setBackground(new java.awt.Color(0, 0, 0));
         jButtonConfigurar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/projetomecanica/telas/visao/icones/Ativo 42.png"))); // NOI18N
         jButtonConfigurar.setBorder(null);
+        jButtonConfigurar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonConfigurar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButtonConfigurarMouseClicked(evt);
@@ -340,6 +330,7 @@ public class TelaExibirColaboradores extends javax.swing.JFrame {
         jButtonCadastrarCliente.setBackground(new java.awt.Color(0, 0, 0));
         jButtonCadastrarCliente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/projetomecanica/telas/visao/icones/Ativo 4.png"))); // NOI18N
         jButtonCadastrarCliente.setBorder(null);
+        jButtonCadastrarCliente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonCadastrarCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonCadastrarClienteActionPerformed(evt);
@@ -349,6 +340,7 @@ public class TelaExibirColaboradores extends javax.swing.JFrame {
         jButtonCadastrarVeiculo.setBackground(new java.awt.Color(0, 0, 0));
         jButtonCadastrarVeiculo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/projetomecanica/telas/visao/icones/Ativo 5.png"))); // NOI18N
         jButtonCadastrarVeiculo.setBorder(null);
+        jButtonCadastrarVeiculo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonCadastrarVeiculo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonCadastrarVeiculoActionPerformed(evt);
@@ -358,6 +350,7 @@ public class TelaExibirColaboradores extends javax.swing.JFrame {
         jButtonOrdemServico.setBackground(new java.awt.Color(0, 0, 0));
         jButtonOrdemServico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/projetomecanica/telas/visao/icones/Ativo 7.png"))); // NOI18N
         jButtonOrdemServico.setBorder(null);
+        jButtonOrdemServico.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonOrdemServico.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonOrdemServicoActionPerformed(evt);
@@ -367,6 +360,7 @@ public class TelaExibirColaboradores extends javax.swing.JFrame {
         jButtonServico.setBackground(new java.awt.Color(0, 0, 0));
         jButtonServico.setIcon(new javax.swing.ImageIcon(getClass().getResource("/projetomecanica/telas/visao/icones/Ativo 8.png"))); // NOI18N
         jButtonServico.setBorder(null);
+        jButtonServico.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonServico.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonServicoActionPerformed(evt);
@@ -376,6 +370,7 @@ public class TelaExibirColaboradores extends javax.swing.JFrame {
         jButtonPagar.setBackground(new java.awt.Color(0, 0, 0));
         jButtonPagar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/projetomecanica/telas/visao/icones/Ativo 9.png"))); // NOI18N
         jButtonPagar.setBorder(null);
+        jButtonPagar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonPagar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonPagarActionPerformed(evt);
@@ -385,6 +380,7 @@ public class TelaExibirColaboradores extends javax.swing.JFrame {
         jButtonCadastrarColaborador.setBackground(new java.awt.Color(0, 0, 0));
         jButtonCadastrarColaborador.setIcon(new javax.swing.ImageIcon(getClass().getResource("/projetomecanica/telas/visao/icones/Ativo 10.png"))); // NOI18N
         jButtonCadastrarColaborador.setBorder(null);
+        jButtonCadastrarColaborador.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonCadastrarColaborador.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonCadastrarColaboradorActionPerformed(evt);
@@ -394,6 +390,7 @@ public class TelaExibirColaboradores extends javax.swing.JFrame {
         jButtonCadastrarPecas.setBackground(new java.awt.Color(0, 0, 0));
         jButtonCadastrarPecas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/projetomecanica/telas/visao/icones/Ativo 18.png"))); // NOI18N
         jButtonCadastrarPecas.setBorder(null);
+        jButtonCadastrarPecas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButtonCadastrarPecas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonCadastrarPecasActionPerformed(evt);
@@ -483,25 +480,36 @@ public class TelaExibirColaboradores extends javax.swing.JFrame {
 
     private void jButtonOrdemServicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOrdemServicoActionPerformed
         // TODO add your handling code here:
+        TelaListagemOS ordemServico = new TelaListagemOS();
+        ordemServico.setVisible(true);
+        dispose();
     }//GEN-LAST:event_jButtonOrdemServicoActionPerformed
 
     private void jButtonServicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonServicoActionPerformed
         // TODO add your handling code here:
+        TelaServicos servico = new TelaServicos();
+        servico.setVisible(true);
+        dispose();
     }//GEN-LAST:event_jButtonServicoActionPerformed
 
     private void jButtonPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPagarActionPerformed
         // TODO add your handling code here:
+        TelaExibirOrcamento pagamento = new TelaExibirOrcamento();
+        pagamento.setVisible(true);
+        dispose();
     }//GEN-LAST:event_jButtonPagarActionPerformed
 
     private void jButtonCadastrarPecasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadastrarPecasActionPerformed
         // TODO add your handling code here:
+        TelaPecas pecas = new TelaPecas();
+        pecas.setVisible(true);
+        dispose();
     }//GEN-LAST:event_jButtonCadastrarPecasActionPerformed
 
     private void jButtonCadastrarColaboradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCadastrarColaboradorActionPerformed
         // TODO add your handling code here:
-        TelaExibirColaboradores funcionario = new TelaExibirColaboradores();
-        funcionario.setVisible(true);
-        dispose();
+        final JFrame frame = this;
+        JOptionPane.showMessageDialog(frame, "Você está aqui!");
     }//GEN-LAST:event_jButtonCadastrarColaboradorActionPerformed
 
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
@@ -578,7 +586,9 @@ public class TelaExibirColaboradores extends javax.swing.JFrame {
         menuItem.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(frame, "New Project clicked!");
+                TelaCadastrarMarcas marca = new TelaCadastrarMarcas();
+                marca.setVisible(true);
+                dispose();
             }
         });
         popup.add(menuItem);
@@ -605,26 +615,11 @@ public class TelaExibirColaboradores extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonConfigurarMouseClicked
 
     private void jButtonExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExcluirActionPerformed
-        try {
-            int index = jTableListagemDeColaboradores.getSelectedRow();
-            colaboradorDAO.inativarPorId(colaboradoresId.get(index).intValue());
-            TelaExibirColaboradores funcionario = new TelaExibirColaboradores();
-            funcionario.setVisible(true);
-            dispose();
-        } catch (Exception erro) {
-            JOptionPane.showMessageDialog(null, erro, "Aviso:", JOptionPane.WARNING_MESSAGE);
-        }
-        
+        // TODO add your handling code here:
     }//GEN-LAST:event_jButtonExcluirActionPerformed
 
     private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
-        try {
-            TelaCadastrarColaborador novoColaborador = new TelaCadastrarColaborador();
-            novoColaborador.setVisible(true);
-            dispose();
-        } catch (Exception erro) {
-            JOptionPane.showMessageDialog(null, erro, "Aviso:", JOptionPane.WARNING_MESSAGE);
-        }
+        // TODO add your handling code here:
     }//GEN-LAST:event_jButtonEditarActionPerformed
 
     /**
@@ -692,7 +687,7 @@ public class TelaExibirColaboradores extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelFundo;
     private javax.swing.JRadioButtonMenuItem jRadioButtonMenuItem1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTableListagemDeColaboradores;
+    private javax.swing.JTable jTableCadastros;
     private javax.swing.JTextField jTextField11;
     private javax.swing.JTextField jTextField12;
     private javax.swing.JTextField jTextField13;
