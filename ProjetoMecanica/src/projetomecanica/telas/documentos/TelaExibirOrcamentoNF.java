@@ -271,7 +271,7 @@ public class TelaExibirOrcamentoNF extends javax.swing.JFrame {
         jPanelFundoLayout.setHorizontalGroup(
             jPanelFundoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelFundoLayout.createSequentialGroup()
-                .addContainerGap(65, Short.MAX_VALUE)
+                .addGap(65, 65, 65)
                 .addGroup(jPanelFundoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanelFundoLayout.createSequentialGroup()
                         .addComponent(jLabel2)
@@ -283,7 +283,7 @@ public class TelaExibirOrcamentoNF extends javax.swing.JFrame {
                         .addComponent(jButtonExcluirOrcamento)
                         .addGap(18, 18, 18)
                         .addComponent(jButtonNovoOrcamento)))
-                .addGap(61, 61, 61)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
                 .addGroup(jPanelFundoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 523, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelFundoLayout.createSequentialGroup()
@@ -292,7 +292,7 @@ public class TelaExibirOrcamentoNF extends javax.swing.JFrame {
                         .addComponent(jButtonExcluirNF)
                         .addGap(18, 18, 18)
                         .addComponent(jButtonNovaNF)))
-                .addContainerGap(65, Short.MAX_VALUE))
+                .addGap(65, 65, 65))
         );
         jPanelFundoLayout.setVerticalGroup(
             jPanelFundoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
